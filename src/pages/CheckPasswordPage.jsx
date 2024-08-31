@@ -24,7 +24,7 @@ const CheckPasswordPage = () => {
   };
   const handleSubmite = async (e) => {
     e.preventDefault();
-    const URL = `${import.meta.env.REACT_APP_BACKEND_URL}/api/password`;
+    const URL = `${import.meta.env.REACT_APP_BACKEND_URL}api/password`;
     try {
       const response = await axios({
         method: "post",

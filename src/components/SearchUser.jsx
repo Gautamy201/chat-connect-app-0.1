@@ -11,7 +11,7 @@ const SearchUser = ({ onClose }) => {
   const user = useSelector((state) => state.user);
   const handleSearchUser = async () => {
     setloading(true);
-    const URL = `${import.meta.env.REACT_APP_BACKEND_URL}/api/serch-user`;
+    const URL = `${import.meta.env.REACT_APP_BACKEND_URL}api/serch-user`;
     try {
       const response = await axios.post(URL, {
         search: searchUserInput,
