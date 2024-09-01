@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://chat-connect-app.netlify.app",
+  "proxy": "https://chat-connect-backend-server.onrender.com",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
