@@ -10,11 +10,14 @@ import { logout } from "../redux/userSlice";
 import { GoArrowUpLeft } from "react-icons/go";
 import SearchUser from "./SearchUser";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
 import moment from "moment";
 import { genratePathName } from "../helper/commonFunction ForUse";
+
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState(true);
   const [allUser, setAllUser] = useState([]);
   const [openSearchUser, setOpenSearchUser] = useState(false);
   const user = useSelector((state) => state.user);
@@ -50,23 +53,42 @@ const Sidebar = () => {
   }, [socketConnection, user]);
 
   return (
-    <div className="w-full h-full grid grid-cols-[48px,1fr]">
-      <div className="bg-slate-100 w-12 h-full rounded-tr-lg rounded-br-lg py-5 text-slate-700 flex flex-col justify-between">
-        <div>
+    <div
+      className={`w-full h-full grid sm:grid-cols-[56px,1fr] grid-cols-[1fr] relative`}
+    >
+      <div
+        className={`bg-brand w-20  sm:w-14 h-full rounded-tr-lg rounded-br-lg py-4 hover:text-primary flex flex-col justify-between items-center absolute sm:static top-0 ${
+          openMenu ? "left-0" : "-left-20"
+        }`}
+      >
+        <button
+          className={`absolute bg-brand text-xs px-1 py-4 rounded-tr-lg rounded-br-lg top-1/2 -translate-y-1/2 -right-6 pl-6 sm:hidden uppercase text-white`}
+          style={{ textOrientation: "upright", writingMode: "vertical-lr" }}
+          onClick={() => setOpenMenu(!openMenu)}
+        >
+          {openMenu ? "close" : "open"}
+        </button>
+        <div className="flex flex-col gap-2 text-white">
           <NavLink
             className={({ isActive }) =>
-              `w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9] ${
+              `sm:w-12 sm:h-12 w-16 h-16 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9] text-black ${
                 isActive && "bg-slate-200"
               }`
             }
             title="Chat"
+            onClick={() => {
+              setOpenMenu(!openMenu);
+            }}
           >
             <IoChatboxEllipses size={25} />
           </NavLink>
           <button
-            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9]"
+            className="sm:w-12 sm:h-12 w-16 h-16 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9]"
             title="Add friend"
-            onClick={() => setOpenSearchUser(true)}
+            onClick={() => {
+              setOpenSearchUser(true);
+              setOpenMenu(!openMenu);
+            }}
           >
             <FaUserPlus size={25} />
           </button>
@@ -74,22 +96,26 @@ const Sidebar = () => {
         <div>
           <button
             title={user.name}
-            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9]"
-            onClick={() => setEditSectionOpen(!editSectionOpen)}
+            className="sm:w-12 sm:h-12 w-16 h-16 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9]"
+            onClick={() => {
+              setEditSectionOpen(!editSectionOpen);
+              setOpenMenu(!openMenu);
+            }}
           >
             <Avtar
-              width={25}
-              height={25}
+              width={30}
+              height={30}
               name={user.name}
               imageUrl={user.profile_Pic}
             />
           </button>
           <button
             title="Logout"
-            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9]"
+            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded active:scale-[0.9] text-white"
             onClick={() => {
               dispatch(logout);
               navigate("/email");
+              setOpenMenu(!openMenu);
             }}
           >
             <BiLogOutCircle size={25} />
@@ -97,11 +123,26 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="w-full bg-opacity-20 h-full border-r">
-        <div className=" h-16 flex items-center overflow-hidden">
-          <h2 className="text-xl font-bold p-4 text-slate-800">Message</h2>
+      <div className="w-full bg-opacity-20 border-r">
+        <div className="w-full h-20 sm:h-16 flex items-center overflow-hidden pl-3 ">
+          {/* {!openMenu && (
+            <button
+              className="sm:hidden flex flex-col items-center px-2 active:scale-[1.1]"
+              onClick={() => setOpenMenu(true)}
+            >
+              <AiOutlineMenuUnfold size={35} />
+              <span>Menu</span>
+            </button>
+          )} */}
+          <h2
+            className={`text-xl sm:w-fit font-bold p-4 text-slate-800 ${
+              openMenu ? "text-center w-full" : "text-left"
+            }`}
+          >
+            Message
+          </h2>
         </div>
-        <div className="bg-slate-200 p-[0.5px]"></div>
+        <div className="bg-slate-200 p-[0.7px]"></div>
         <div className=" w-full  h-[calc(100vh-65px)] overflow-x-hidden overflow-y-auto scrollbar px-2 gap-1">
           {allUser.length === 0 && (
             <div className="mt-12">

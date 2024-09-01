@@ -37,36 +37,42 @@ const Avtar = ({ name, imageUrl, width, height, userId }) => {
     "bg-neutral-300",
   ];
 
-  const hw = `${width}px`;
-
   const isUserOnline = onlineUser.includes(userId);
   return (
     <>
       <div
-        className={`text-slate-800  rounded-full relative border-2 ${
+        className={`text-slate-800  rounded-full relative border overflow-hidden bg-white ${
           isUserOnline ? "border-primary" : "border-black"
-        }  h-[${hw}] w-[${hw}]`}
+        }`}
+        style={{
+          width: width,
+          height: height,
+        }}
       >
         {imageUrl ? (
           <img
             src={imageUrl}
-            width={width}
-            height={height}
+            width={100}
+            height={100}
             alt={name}
             className="overflow-hidden rounded-full"
           />
         ) : name ? (
           <div
-            style={{ width: width + "px", height: height + "px" }}
-            className={`overflow-hidden rounded-full border border-stone-800 flex justify-center items-center uppercase text-[${fontSize}] font-bold ${bgColor[rendomNumber]} `}
+            style={{
+              width: width,
+              height: height,
+              fontSize: fontSize,
+            }}
+            className={`overflow-hidden w-full h-full rounded-full border flex justify-center items-center uppercase`}
           >
-            {avtarName}
+            <p className=" text-ellipsis text-nowrap">{avtarName}</p>
           </div>
         ) : (
           <FaRegCircleUser size={width} />
         )}
         {isUserOnline && (
-          <div className="p-1 bg-green-500 absolute bottom-1 right-1  rounded"></div>
+          <div className="bg-green-500 absolute bottom-1 right-1  rounded"></div>
         )}
       </div>
     </>
