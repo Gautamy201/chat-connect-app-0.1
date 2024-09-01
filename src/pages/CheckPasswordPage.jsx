@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setToken } from "../redux/userSlice";
 const CheckPasswordPage = () => {
   const location = useLocation();
+  console.log(location.state._id)
   const dispatch = useDispatch();
   const [data, setData] = useState({
     password: "",
